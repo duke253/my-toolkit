@@ -25,7 +25,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /var/cache/nginx
 
 # support running as arbitrary user which belogs to the root group
-RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx /opt/minio-client/mc /opt/oc-cli /opt/workdir &&\
+RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx /opt/minio-client/mc /opt/oc-cli /opt/workdir /opt/minio-client &&\
 	chmod -R g+w /etc/nginx
 
 COPY entrypoint.sh /opt/workdir/entrypoint.sh
