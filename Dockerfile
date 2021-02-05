@@ -7,6 +7,7 @@ RUN yum -y install epel-release &&\
 RUN mkdir -p /opt/minio-client &&\
 	cd /opt/minio-client &&\
 	wget https://dl.minio.io/client/mc/release/linux-amd64/mc
+	ln -s /opt/minio-client/mc /usr/bin/mc
 
 RUN mkdir -p /opt/oc-cli &&\
 	cd /opt/oc-cli &&\
