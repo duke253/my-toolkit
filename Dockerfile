@@ -16,6 +16,8 @@ RUN mkdir -p /opt/oc-cli &&\
 	ln -s /opt/oc-cli/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/kubectl /usr/bin/kubectl &&\
 	ln -s /opt/oc-cli/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc /usr/bin/oc
 
+RUN mkdir -p /opt/workdir
+
 RUN rm -rf /etc/nginx/nginx.conf
 
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -23,11 +25,13 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /var/cache/nginx
 
 # support running as arbitrary user which belogs to the root group
-RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx /opt/minio-client/mc /opt/oc-cli &&\
+RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx /opt/minio-client/mc /opt/oc-cli /opt/workdir &&\
 	chmod -R g+w /etc/nginx
 
-COPY entrypoint.sh /opt/entrypoint.sh
+COPY entrypoint.sh /opt/workdir/entrypoint.sh
 
-RUN chmod +x /opt/entrypoint.sh
+RUN chmod +x /opt/workdir/entrypoint.sh
 
-CMD ["/bin/bash","-c","/opt/entrypoint.sh"]
+WORKDIR /opt/workdir
+
+CMD ["/bin/bash","-c","/opt/workdir/entrypoint.sh"]
